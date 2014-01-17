@@ -1,0 +1,10 @@
+haakjes [] = 0
+
+haakjes (x:xs) = haakjes(xs) - 1, if x = '('
+               = haakjes(xs) + 1, if x = ')'
+               = haakjes(xs) - 2, if x = '['
+               = haakjes(xs) + 2, if x = ']'
+               = haakjes(xs) - 3, if x = '{'
+               = haakjes(xs) + 3, if x = '}'
+koekjes xs = haakjes(xs) = 0
+
