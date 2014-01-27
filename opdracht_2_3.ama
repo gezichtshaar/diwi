@@ -1,0 +1,17 @@
+verhoog xs = [x + 1 | x <- xs] 
+
+tussen3en7 xs = [x | x <- xs; x >= 3 /\ x <= 7]
+
+numsqr xs = [x^2 | x <- xs]
+
+fie xs = [x * y | x <-xs; y <- [1..3]]
+
+delers n = [x | x <- [1..n]; n mod x = 0]
+
+priemgetal n = #(delers n) = 2
+
+perfect n = sum(delers n) = n*2
+
+ggd n m = max [x| x <- (delers n); y <- (delers m); x = y]
+
+pythagoras n = [[x, y, z, z^2]| x <- [1..n]; y <- [1..n]; z <- [1..n]; x^2 + y^2 = z^2]
