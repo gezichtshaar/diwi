@@ -19,6 +19,7 @@ removeOnce x (y:ys) = ys, if x=y
 subset [] ys = True
 subset (x:xs) ys = member ys (x) /\ subset xs ys
 
+last [] = 0
 last (x:xs) = x, if (#xs)=0
             = last xs, otherwise
 
