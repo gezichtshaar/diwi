@@ -1,0 +1,9 @@
+decTobin n = "", if n<=0
+           = decTobin (n/2) ++ "0", if (n/2)*2 = n
+           = decTobin (n/2) ++ "1", if (n/2)*2 < n
+
+binTodecCalc [] n = 0
+binTodecCalc (x:xs) n = 2^n + binTodecCalc xs (n+1), if x='1'
+                      = binTodecCalc xs (n+1), if x='0'
+
+binTodec xs = binTodecCalc (reverse xs) 0
