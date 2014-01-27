@@ -20,6 +20,7 @@ subset [] ys = True
 subset (x:xs) ys = member ys (x) /\ subset xs ys
 
 last xs = hd (reverse xs), if (#xs)>0
+        = last (reverse xs), if (#xs)<0
         = 0, otherwise
 
 langstebeginplateau (x:xs) = [x] ++ langstebeginplateau xs, if x=(hd xs)
