@@ -7,3 +7,27 @@ binTodecCalc (x:xs) n = 2^n + binTodecCalc xs (n+1), if x='1'
                       = binTodecCalc xs (n+1), if x='0'
 
 binTodec xs = binTodecCalc (reverse xs) 0
+
+remove x [] = []
+remove x (y:ys) = remove x ys, if x=y
+                = [y] ++ remove x ys, otherwise
+
+removeOnce x [] = []
+removeOnce x (y:ys) = ys, if x=y
+                    = [y] ++ removeOnce x ys, otherwise
+
+subset [] ys = True
+subset (x:xs) ys = member ys (x) /\ subset xs ys
+
+last xs = hd (reverse xs), if (#xs)>0
+        = 0, otherwise
+
+langstebeginplateau (x:xs) = [x] ++ langstebeginplateau xs, if x=(hd xs)
+                           = [x], otherwise
+
+insert n [] = [n]
+insert n (x:xs) = [x] ++ [n] ++ xs, if n<=x
+                = [x] ++ (insert n xs), otherwise
+
+isort [] = []
+isort (x:xs) = insert x (isort xs)
