@@ -1,0 +1,50 @@
+haak xs = haakjes xs []
+haakjes [] [] = True
+haakjes [] ys = False
+haakjes (x:xs) [] = haakjes xs [x], if x = '(' \/ x = '[' \/ x = '{'
+                  = False, otherwise
+haakjes (x:xs) (y:ys) = haakjes xs (x:y:ys), if x = '(' \/ x = '[' \/ x = '{'
+                      = haakjes xs ys, if x = ')' /\ y = '('
+                      = haakjes xs ys, if x = ']' /\ y = '['
+                      = haakjes xs ys, if x = '}' /\ y = '{'
+                      = False, otherwise
+
+
+numtobin 0 = ""
+numtobin x = numtobin (x/2) ++ "0", if (x mod 2 = 0)
+numtobin x = numtobin (x/2) ++ "1", if (x mod 2 = 1)
+
+b2n xs = bintonum(reverse xs)
+bintonum [] = 0
+bintonum ('0':xs) = 0 + 2 * bintonum xs
+bintonum ('1':xs) = 1 + 2 * bintonum xs
+
+remove x [] = []
+remove x (y:ys) = remove x ys, if x=y
+                = [y] ++ remove x ys, otherwise
+
+removeOnce x [] = []
+removeOnce x (y:ys) = ys, if x=y
+                    = [y] ++ removeOnce x ys, otherwise
+subset [] ys = True
+subset (x:xs) ys = subset xs ys /\ member ys x
+
+last [] = 0
+last (x:xs) = x, if  (#xs)=0
+            = last xs, otherwise
+
+
+lbp (x:xs) = [x] ++ lbp xs, if x = (hd xs)
+           = [x], otherwise
+
+insert n [] = [n] 
+insert n (y:ys) = [n] ++ [y]++ ys, if n <= y
+                = [y] ++ (insert n ys), otherwise
+isort [] = []
+isort (x:xs) = insert x (isort xs)
+
+merge xs [] = xs
+merge [] xs = xs
+merge (x:xs) (y:ys) = [x, y] ++ merge xs ys, if x < y
+                    = [y, x] ++ merge xs ys , otherwise
+
