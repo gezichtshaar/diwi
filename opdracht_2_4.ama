@@ -1,3 +1,14 @@
+haak xs = haakjes xs []
+haakjes [] [] = True
+haakjes [] ys = False
+haakjes (x:xs) [] = haakjes xs [x], if x = '(' \/ x = '[' \/ x = '{'
+                  = False, otherwise
+haakjes (x:xs) (y:ys) = haakjes xs (x:y:ys), if x = '(' \/ x = '[' \/ x = '{'
+                      = haakjes xs ys, if x = ')' /\ y = '('
+                      = haakjes xs ys, if x = ']' /\ y = '['
+                      = haakjes xs ys, if x = '}' /\ y = '{'
+                      = False, otherwise
+
 decTobin n = "", if n<=0
            = decTobin (n/2) ++ "0", if (n/2)*2 = n
            = decTobin (n/2) ++ "1", if (n/2)*2 < n
