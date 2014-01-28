@@ -33,3 +33,13 @@ insert n (x:xs) = [n] ++ [x] ++ xs, if n<x
 isort [] = []
 isort (x:xs) = insert x (isort xs)
 
+merge [] ys = ys
+merge (x:xs) (y:ys) = [x,y] ++ merge xs ys, if x<y
+                    = [y,x] ++ merge xs ys, otherwise
+
+msort [] = []
+msort [x] = [x]
+msort xs = merge es ta
+where es = msort (take m xs)
+      ta = msort (drop m xs)
+       m = (#xs)/2
