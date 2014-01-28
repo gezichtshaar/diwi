@@ -27,8 +27,9 @@ langstebeginplateau (x:xs) = [x] ++ langstebeginplateau xs, if x=(hd xs)
                            = [x], otherwise
 
 insert n [] = [n]
-insert n (x:xs) = [x] ++ [n] ++ xs, if n<=x
+insert n (x:xs) = [n] ++ [x] ++ xs, if n<x
                 = [x] ++ (insert n xs), otherwise
 
 isort [] = []
 isort (x:xs) = insert x (isort xs)
+
