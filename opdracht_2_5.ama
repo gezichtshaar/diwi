@@ -14,5 +14,13 @@ preorder (Knoop n l r) = [n] ++ (preorder l) ++ (preorder r)
 postorder Leeg = []
 postorder (Knoop n l r) = (postorder l) ++ (postorder r) ++ [n]
 
-maxdepth x Leeg = [x]
-maxdepth x (Knoop n l r) = (maxdepth (x+1) l) ++ (maxdepth (x+1) r)
+maxdepth Leeg = 0
+maxdepth (Knoop n l r) = 1 + max2 (maxdepth l) (maxdepth r)
+
+isvolledig (Knoop n l r) = maxdepth l = maxdepth r
+
+isevenwichtig (Knoop n l r) = member [-1,0,1] (maxdepth l - maxdepth r)
+
+maakboom [x] = Knoop x Leeg Leeg
+maakboom [x,y] = Knoop x (Knoop y Leeg Leeg) Leeg
+maakboom (x:xs) = Knoop x (maakboom (take ((#xs)/2) xs)) (maakboom (drop ((#xs)/2) xs))
