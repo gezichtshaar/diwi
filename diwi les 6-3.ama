@@ -1,0 +1,51 @@
+opda string = stap 1 string
+where
+    stap 1 ('a' : cs) = stap 2 cs
+    stap 2 ('a' : cs) = stap 3 cs   
+    stap 3 ('b' : cs) = stap 4 cs
+    stap 4 ('b' : cs) = stap 5 cs
+    stap 5 ('b' : cs) = stap 4 cs
+    stap 4 ('b' : cs) = stap 3 cs
+    stap 3 ('a' : cs) = stap 2 cs
+    stap 2 ('a' : cs) = stap 1 cs
+    stap 5 "" = True    
+    stap _ _ = False
+|| dat was oefening nu echte shitz
+
+opddriea string = stap 1 string || altijd 3 b in een string voorkomen
+where 
+    stap 1 ('b' : cs) = stap 2 cs
+    stap 2 ('b' : cs) = stap 3 cs   
+    stap 3 ('b' : cs) = stap 4 cs
+    stap 1 ('a' : cs) = stap 1 cs
+    stap 2 ('a' : cs) = stap 2 cs
+    stap 3 ('a' : cs) = stap 3 cs
+    stap 1 ('b' : cs) = stap 1 cs
+    stap 2 ('b' : cs) = stap 2 cs
+    stap 3 ('b' : cs) = stap 3 cs
+    stap 4 ('a' : cs) = stap 4 cs
+    stap 4 ('b' : cs) = stap 4 cs
+    stap 4 "" = True
+    stap _ _ = False
+
+opddrieb string = stap 1 string || elke a gevolgd door een b
+    stap 1 ('b' : cs) = stap 1 cs
+    stap 1 ('a' : cs) = stap 2 cs
+    stap 2 ('b' : cs) = stap 3 cs
+    stap 3 ('a' : cs) = stap 2 cs
+    stap 3 ('b' : cs) = stap 3 cs || alleen van toepassing als bedoeld werd dat het niet uit maakt hoeveel b's. anders weglaten
+    stap 3 "" = True    
+    stap _ _ = False
+    
+opdriec string = step 1 string || even aantal a en even aantal b
+    step 1 ('a' : cs) = step 2 cs
+    step 2 ('a' : cs) = step 3 cs
+    step 2 ('a' : cs) = step 1 cs
+    step 3 ('a' : cs) = step 2 cs
+    step 3 ('b' : cs) = step 4 cs
+    step 4 ('b' : cs) = step 5 cs
+    step 5 ('b' : cs) = step 4 cs
+    step 4 ('b' : cs) = step 3 cs
+    step 5 ('a' : cs) = step 2 cs
+    step 5 "" = True
+    step _ _ = False
