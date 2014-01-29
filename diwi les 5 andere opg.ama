@@ -1,0 +1,19 @@
+binboom ::= Leeg | Knoop num binboom binboom
+
+awesomeboom = Knoop 1 (Knoop 2 (Knoop 3 Leeg Leeg) Leeg) (Knoop 4 Leeg Leeg)
+
+diepte Leeg = 0
+diepte (Knoop a l r) = 1 + diepte l + diepte r
+
+som Leeg = 0
+som (Knoop a l r) = a + som l + som r
+
+somleaf Leeg = 0
+somleaf (Knoop a l r) = 1 + somleaf l + somleaf r, if l=Leeg /\ r=Leeg
+                      = somleaf l + somleaf r, otherwise
+
+komtv n Leeg = False
+komtv n (Knoop a l r) = (a = n) \/ (komtv n l) \/ (komtv n r)
+
+maal Leeg = Leeg
+maal (Knoop a l r) = Knoop (a*10) (maal l) (maal r)
