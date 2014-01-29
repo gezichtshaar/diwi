@@ -21,6 +21,9 @@ isvolledig (Knoop n l r) = maxdepth l = maxdepth r
 
 isevenwichtig (Knoop n l r) = member [-1,0,1] (maxdepth l - maxdepth r)
 
-maakboom [x] = Knoop x Leeg Leeg
-maakboom [x,y] = Knoop x (Knoop y Leeg Leeg) Leeg
-maakboom (x:xs) = Knoop x (maakboom (take ((#xs)/2) xs)) (maakboom (drop ((#xs)/2) xs))
+maakboom [] = Leeg
+
+maakboom (x:xs) = Knoop x (maakboom (fst ls)) (maakboom (snd ls))
+where ls = split ((#xs)/2) xs
+
+sorteer xs = inorder (maakboom xs)
