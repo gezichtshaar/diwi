@@ -1,0 +1,18 @@
+boom ::= Leeg | Knoop num boom boom
+
+demboom = Knoop 1 (Knoop 2 (Knoop 3 Leeg Leeg) Leeg) (Knoop 4 Leeg Leeg)
+
+spiegelboom Leeg = Leeg
+spiegelboom (Knoop n l r) = Knoop n (spiegelboom r) (spiegelboom l)
+
+inorder Leeg = []
+inorder (Knoop n l r) = (inorder l) ++ [n] ++ (inorder r)
+
+preorder Leeg = []
+preorder (Knoop n l r) = [n] ++ (preorder l) ++ (preorder r)
+
+postorder Leeg = []
+postorder (Knoop n l r) = (postorder l) ++ (postorder r) ++ [n]
+
+maxdepth x Leeg = [x]
+maxdepth x (Knoop n l r) = (maxdepth (x+1) l) ++ (maxdepth (x+1) r)
