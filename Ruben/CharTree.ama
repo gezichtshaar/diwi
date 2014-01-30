@@ -1,0 +1,25 @@
+||definitie van binaire boom met karakters
+chartree ::= Leeg | Node char chartree chartree
+
+||vullen van een binaire boom volgens morse code
+||links = punt
+||rechts = streep
+lefttree = Node 'e' (Node 'i' (Node 's' (Node 'h' Leeg Leeg) (Node 'v' Leeg Leeg)) (Node 'u' (Node 'f' Leeg Leeg) Leeg)) (Node 'a' (Node 'r' (Node 'l' Leeg Leeg) Leeg) (Node 'w' (Node 'p' Leeg Leeg) (Node 'j' Leeg Leeg)))
+righttree = Node 't' (Node 'n' (Node 'd' (Node 'b' Leeg Leeg) (Node 'x' Leeg Leeg)) (Node 'k' (Node 'c' Leeg Leeg) (Node 'y' Leeg Leeg))) (Node 'm' (Node 'g' (Node 'z' Leeg Leeg) (Node 'q' Leeg Leeg)) (Node 'o' Leeg Leeg))
+morseboom = Node ' ' lefttree righttree
+
+||doorzoekt de morseboom naar een karakter en geeft bijbehorende code terug
+searchCode c = sCode c morseboom ""
+sCode c Leeg cod = ""
+sCode c (Node k p s) cod = cod, if k = c
+                         = sCode c p (cod ++ ".") ++ sCode c s (cod ++ "-")
+
+||doorzoekt de morseboom naar een code en geeft het bijbehorende karakter terug
+searchChar cod = sChar morseboom cod
+sChar Leeg cod = "Verkeerde code"
+sChar (Node k p s) "" = [k]
+sChar (Node k p s) (c:cod) = sChar p cod, if c = '.'
+                           = sChar s cod, if c = '-'
+
+||geeft alle codes en karakters gekoppeld in tuples terug
+alleCodes = [(c, cod) | g<-[(code 'a')..(code 'z')]; c := decode g; cod := searchCode c]

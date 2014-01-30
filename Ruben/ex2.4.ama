@@ -1,0 +1,198 @@
+|| ex1a
+|| Tests if string of brackets is correct.
+|| e.g., ((())()) is correct, (() is not.
+
+|| Stop function. If the string has been emptied, evaluate
+|| whether carry-over y is 0. If that is the case, there is an
+|| equal amount of ('s in comparison to )'s.
+|| Else, the amount must be different, therefore False.
+brackets "" y     = True, if y = 0
+                  = False, otherwise
+
+|| Extract one character from list.  Return False if y drops
+|| below 0 (i.e., string closes bracket before one is opened).
+|| Alter y before calling the next function. y is the amount of
+|| opened brackets.
+brackets (x:xs) y = False, if y < 0
+                  = brackets xs (y+1), if x = '('
+                  = brackets xs (y-1), if x = ')'
+
+|| Call the function.
+brackets_init xs  = brackets xs 0
+
+|| ex1b
+|| Stop function. If the string has been emptied, evaluate
+|| whether carry-over ys is empty. If that is the case, all
+|| opened brackets have been closed.
+|| Else, the amount must be different, therefore False.
+brackets2 "" ys     = True, if ys = []
+                    = False, otherwise
+
+|| If no brackets have been opened yet, tests if succeeding
+|| character is a closing bracket. If that is the case, it must be false.
+|| Else, carry on with the opening bracket as carry-over in ys.
+brackets2 (x:xs) [] = False,            if x = ')' \/ x = ']' \/ x = '}'
+                    = brackets2 xs [x], if x = '(' \/ x = '[' \/ x = '{'
+
+|| Extracts a character from xs and a carry-over from ys. If a closing
+|| bracket follows that is NOT a corresponding closing bracket, False
+|| is returned.
+|| If a new opening bracket is made, add that AND the popped
+|| carry-over to ys.
+|| If a closing bracket is made, simply carry on.
+brackets2 (x:xs) (y:ys) = False, if x = ')' /\ y ~= '('
+                        = False, if x = ']' /\ y ~= '['
+                        = False, if x = '}' /\ y ~= '{'
+                        = brackets2 xs ([x] ++ [y] ++ ys), if x = '(' \/ x = '[' \/ x = '{'
+                        = brackets2 xs (ys),               if x = ')' \/ x = ']' \/ x = '}' 
+
+|| Call the function.
+brackets2_init xs = brackets2 xs []
+
+|| ex2
+|| Stop function. If we've run out of bits, return dec
+bin_to_dec [] dec = dec
+
+|| Splits off leftmost bit. Does 2^(length of list) and adds that to
+|| dec if the bit was a '1'. Otherwise, add nothing and carry on.
+bin_to_dec (bit:bin) dec = bin_to_dec bin (dec+2^(#bin)), if bit = '1'
+                         = bin_to_dec bin dec,            otherwise
+
+|| Init function.
+bin_to_dec_init bin = bin_to_dec bin 0
+
+|| Stop function. If dec has been reduced to 0, carry-over bin is returned.
+dec_to_bin 0 bin   = bin
+
+|| Divides dec by 2 (non-floating point). Adds '0' to bin if dec is cleanly
+|| divisible by two. Otherwise adds '1' to bin.
+dec_to_bin dec bin = dec_to_bin (dec/2) (['0'] ++ bin), if (dec % 2) = 0
+                   = dec_to_bin (dec/2) (['1'] ++ bin), otherwise
+
+|| Init function.
+dec_to_bin_init dec = dec_to_bin dec ""
+
+|| ex3
+|| Stop function. If we've run out of numbers, return the carry-over cs.
+remove [] n cs     = cs
+
+|| If the popped number is not n, add it to carry-over.
+|| Else, simply carry on.
+remove (x:xs) n cs = remove xs n (cs ++ [x]), if x ~= n
+                   = remove xs n cs, otherwise
+
+remove_init xs n = remove xs n []
+
+|| Stop function. If we've run out of numbers, return the carry-over cs.
+remove_once [] n cs b = cs
+
+|| If the popped number is n and b is False, keep it popped and change b
+|| to True.
+|| Else, carry on and add all popped numbers to carry-over cs.
+remove_once (x:xs) n cs b = remove_once xs n cs True, if b = False /\ x = n
+                          = remove_once xs n (cs ++ [x]) b, otherwise
+
+remove_once_init xs n = remove_once xs n [] False
+
+|| ex4
+|| Tests if the contents of xs are in ys.
+|| Double occurrences will break the thing. Just don't do that.
+|| Stop function. If false appears in b, immediately return False.
+subset xs ys False = False
+
+|| Stop function. Return the value of b (True or False)
+subset [] ys b     = b
+
+|| Split off x from xs. Test if [x] appears in the list comprehension where z = x.
+|| Carry on with b = True if the above is True, else carry on with b = False.
+subset (x:xs) ys b = subset xs ys True,  if [x] = [z | z <- ys; z = x]
+                   = subset xs ys False, otherwise
+
+|| Init function.
+subset_init xs ys = subset xs ys True
+
+|| ex5
+|| Splits off x from xs. Evaluates length of xs. If not zero, simply carry on.
+|| If it is zero, return the last splitted element.
+last (x:xs) = last xs, if #xs ~= 0
+            = x,       otherwise
+
+|| ex6
+|| Stop sequence. If xs is empty, return cs.
+longest_begin_sequence [] cs     = cs
+
+|| Splits x off from xs. Appends it to cs if cs is emmpty, or if x equals the
+|| first element of cs.
+|| Otherwise, empty xs and pass on cs.
+longest_begin_sequence (x:xs) cs = longest_begin_sequence xs ([x] ++ cs), if cs = [] \/ cs!0 = x
+                                 = longest_begin_sequence [] cs,          otherwise
+
+|| Init function.
+longest_begin_sequence_init xs   = longest_begin_sequence xs []
+
+|| ex7
+|| If the list is empty, simply return a list of [x]. Also stop function.
+insert x []     = [x]
+
+|| Split y off from ys. As long as the condition of x < y is not met, (which
+|| should be the first few loops), add [y] to the result of insert x ys.
+|| Once the condition has been met, add [x] first, then [y], then the
+|| remainder ys.
+insert x (y:ys) = [x] ++ [y] ++ ys,     if x < y
+                = [y] ++ (insert x ys), otherwise
+
+|| Return an empty when an empty list is entered. Stop function.
+isort [] = []
+
+|| Split x off from xs. Insert x into the list that pops out of isort xs itself.
+|| This should first empty the entire list, then insert all numbers.
+isort (x:xs) = insert x (isort xs)
+
+|| ex8
+|| Most of the below functions are in excess.
+|| Splits off x from xs and adds x to ys until xs is no longer bigger than ys.
+splt (x:xs) ys = splt xs (ys ++ [x]), if #xs >= #ys
+               = [ys, [x] ++ xs],            otherwise
+
+|| Init function
+splt_init xs = splt xs []
+
+|| Gets first half of splitted list
+first_half xs = (splt_init xs)!0
+
+|| Gets second half of splitted list
+second_half xs = (splt_init xs)!1
+
+|| This does NOT work. The error lies in the ">1" bit. This is necessary for the
+|| splitting up of the lists, but useless when merging them back together.
+merge_sort xs ys = merge_sort (merge_sort_init xs) (merge_sort_init ys), if #xs > 1 /\ #ys > 1
+                 = merge_sort (merge_sort_init xs) (ys),                 if #xs > 1 /\ #ys = 1
+                 = merge_sort (xs)                 (merge_sort_init ys), if #xs = 1 /\ #ys > 1
+                 = xs ++ ys,                                             if xs!0 < ys!0
+                 = ys ++ xs,                                             otherwise
+
+|| Sort of an init function, sort of a split function.
+merge_sort_init xs = merge_sort (first_half xs) (second_half xs)
+
+|| Self-explanatory
+merge [] [] = []
+merge xs [] = xs
+merge [] ys = ys
+
+|| Splits off the first elements from both lists and compares them.
+|| The lowest number is added first.
+merge (x:xs) (y:ys) = [x] ++ [y] ++ merge xs ys, if x < y
+                    = [y] ++ [x] ++ merge xs ys, otherwise
+
+|| Returns an empty list if an empty list is given.
+msort [] = []
+
+|| Returns a single-element list if a single-element list is given.
+msort [x] = [x]
+
+|| Merges the first half with the second half
+msort xs = merge fs ss
+
+|| Where the first half and second half are sorted individually.
+where fs = msort (first_half xs)
+      ss = msort (second_half xs)

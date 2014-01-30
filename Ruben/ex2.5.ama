@@ -1,0 +1,64 @@
+|| Definition of chartree.
+|| Either Empty, or a Node that has a.) a num and b.) two inferior chartrees.
+tree ::= Empty | Node num tree tree
+
+demo_tree = Node 1 (Node 2 (Node 3 Empty Empty) Empty) (Node 4 Empty Empty)
+
+|| ex1
+|| Returns Empty if node is Empty
+mirror_tree Empty = Empty
+
+|| Mirrors tree. Puts r to the left, and l to the right.
+mirror_tree (Node n l r) = Node n (mirror_tree r) (mirror_tree l)
+
+|| ex2
+|| Puts everything in a list from leftmost to rightmost
+in_order Empty = []
+in_order (Node n l r) = (in_order l) ++ [n] ++ (in_order r)
+
+|| Puts top node first, then leftmost, then rightmost
+pre_order Empty = []
+pre_order (Node n l r) = [n] ++ (pre_order l) ++ (pre_order r)
+
+|| First leftmost, then rightmost, then top node.
+post_order Empty = []
+post_order (Node n l r) = (post_order l) ++ (post_order r) ++ [n]
+
+|| ex3
+|| If the Node is Empty, return 0
+max_depth Empty = 0
+
+|| Return 1 + the max_depth of either left or right, depending on which one is bigger.
+max_depth (Node n l r) = 1 + max2 (max_depth l) (max_depth r)
+
+|| ex4
+|| Returns a bool value depending on whether the depth of l equals the depth of r.
+is_complete (Node n l r) = (max_depth l = max_depth r)
+
+|| ex5
+|| Returns a bool value. Tests if the result of (l - r) is in [-1, 0, 1].
+is_balanced (Node n l r) = member [-1..1] (max_depth l - max_depth r)
+
+
+|| ex6
+|| Returns a list that has two splitted components.
+splt n xs = [take n xs, drop n xs]
+
+|| Init function
+splt_init xs = splt (#xs/2) xs
+
+|| Gets first half of splitted list
+first_half xs = (splt_init xs)!0
+
+|| Gets second half of splitted list
+second_half xs = (splt_init xs)!1
+
+|| If the list is empty, return Empty
+make_tree [] = Empty
+
+|| Recursively creates a Node where its left and right halves are splitted from list xs.
+make_tree (x:xs) = Node x (make_tree (first_half xs)) (make_tree (second_half xs))
+
+|| ex7
+|| Generates a tree from xs. Returns the in-order list of the tree.
+sort_tree xs = in_order (make_tree xs)

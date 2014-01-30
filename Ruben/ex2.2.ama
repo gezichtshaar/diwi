@@ -1,0 +1,58 @@
+|| Aantal functiedefinities voor de werkplaats.
+
+
+|| Calculate average.
+avg a b = (a + b) // 2
+
+
+|| Increment by one.
+rise n = n + 1
+
+
+|| ???
+ing a b = a * b + a // b
+
+|| ex2
+|| Define tau.
+tau = 2 * pi
+
+|| Calculate circle area.
+circle_area r = (tau // 2) * r^2
+
+|| Calculate interest.
+gain b g t = b * g^t
+
+|| ex3
+|| Test example. Returns error if anything other than 1 or 2 is entered.
+f x = 1, if x = 1
+    = 2, if x = 2
+
+|| ex4
+|| Tests if all values equal.
+all_equal a b c = True, if a = b /\ a = c
+                = False, otherwise
+
+|| ex5
+|| Tests if all values different.
+not_all_equal a b c = True, if a ~= b /\ a ~= c /\ b ~= c
+                    = False, otherwise
+
+|| ex6
+|| Returns largest amount of equal values.
+amount_equal a b c = 3, if all_equal a b c
+                   = 1, if not_all_equal a b c
+                   = 2, otherwise
+
+
+|| ex2
+|| Takes third element from list.
+third xs = drop 2 (take 3 xs)
+
+|| ex3
+|| Pastes three lists
+paste_three xs ys zs = xs ++ ys ++ zs
+
+|| ex4
+|| Takes values from x to (including) y from list.
+take_from_to xs x y = [xs!(z-1) | z <- [x..y]]
+

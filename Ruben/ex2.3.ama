@@ -1,0 +1,43 @@
+|| ex1
+rise xs = [z+1 | z <- xs]
+
+|| ex2
+|| Takes values between x and y from list.
+take_between xs x y = [xs!(z-1) | z <- [x+1..y-1]]
+
+|| ex3
+|| Takes the sum of squares where n is base.
+|| n^2 + (n+1)^2 + (n+2)^2 ...
+|| A list of the results is first generated. The contents
+|| of the list are then summed.
+sum_square n = sum [x^2 | x <- [1..n]]
+
+|| ex4
+|| Adds n-1 extra items to list. So if [2] and n=3, returns:
+|| [2, 4, 6]
+expand_list xs n = [z*y | z <- xs; y <- [1..n]]
+
+|| ex5
+|| Generates a list of mod 0 dividers of n.
+dividers n = [d | d <- [2..n]; n mod d = 0]
+
+|| Tests if number is prime
+is_prime n = True, if dividers n = [n]
+           = False, otherwise
+
+|| Tests if number is perfect number (sum of dividers)
+|| Adds 1 because 1 is not in dividers.
+|| Removes n because n is in dividers, and would otherwise
+|| double the result.
+is_perfect n = True, if sum (dividers n)+1-n = n
+             = False, otherwise
+
+|| Calculates the greatest common divider of two numbers.
+|| Extracts all values from dividers n and dividers m,
+|| and puts them in a list if the corresponding values from both lists
+|| are equal. Returns the greatest value from newly generated list.
+greatest_common_divider n m = max [x | x <- dividers n; y <- dividers m; x = y]
+
+|| ex6
+|| Returns all pythagorian pairs of a,b,c where a,b,c are between 1 and n.
+pythagoras n = [[a, b, c] | a <- [1..n]; b <- [1..n]; c <- [1..n]; a^2 + b^2 = c^2; a < b]
